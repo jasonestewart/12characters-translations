@@ -82,7 +82,7 @@ CHAPTER = """
 
 \chapterimage{IMAGE} % Chapter heading image
 
-\chapter{CHAPTER}
+\chapter[CHAPTER-RAW]{\\texorpdfstring{CHAPTER}{CHAPTER-RAW}}
 
 TEXT
 """
@@ -134,7 +134,9 @@ for i, chapter_file in enumerate(CHAPTERS):
         add_default_image(heading)
         image = DEFAULT_IMAGE
     PARTS += (CHAPTER
-        .replace("CHAPTER", heading)
+        .replace("CHAPTER-RAW", heading)
+        .replace("CHAPTER", heading.replace(",", ",\\\\"))
+        .replace("CHAPTER", "\section[" + heading + "]{\\texorpdfstring{" + heading.replace(",", ",\\\\") + "}{" + heading + "}}")
         .replace("TEXT", text)
         .replace("IMAGE", image)
     )
